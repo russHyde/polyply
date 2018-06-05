@@ -1,0 +1,8 @@
+linters: with_defaults(
+  line_length_linter(80),
+  commented_code_linter = NULL,
+  object_length_linter(40),
+  camel_case_linter = NULL,
+  spaces_left_parentheses_linter = NULL,
+  open_curly_linter = NULL
+  )
