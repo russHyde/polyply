@@ -14,25 +14,33 @@ to the package.
 
 ## Tests
 
-- []
+- [+] Construction of a `poly_frame`
+- [] `merge_fn` attribute of a `poly_frame`
+
+- [] Merge a `poly_frame`
+
+- [] Convert a `poly_frame` back to a list of data-frames
+- [] Slice/extract on a `poly_frame`
+
+- [+] Add lintr-checking test
+    - Dev must use devtools::test() or devtools::check(check_dir = ".") to
+      ensure that source-code is available for this test to run
+    - No source code is present upon which to lint when using devtools::check()
 
 ## Classes
 
-- [] `poly_frame`
-    - underlying structure is a list of data-frames
-    - stores it's own merging function
+### `poly_frame`
 
-## Methods
-
-- []
+- [+] construction using `as_poly_frame`
+- [+] underlying structure is a list of data-frames
+- [] store a merging function
+- [] `merge.poly_frame`
+- [] `as.list.poly_frame`
 
 ## Functions
 
-- []
-
-## Tests
-
-- []
+- [+] `as_poly_frame` with bare df-list
+- [] `as_poly_frame` with merging function
 
 ## Documentation
 
@@ -45,13 +53,16 @@ to the package.
 
 - []
 
-## Testing setup
-
-- []
-
 ## Git structure
 
 - [] Add `develop` branch
 - [] Add initial tag to `master`
+
+## Continuous Integration
+
+- [] Add Travis file
+
+- [] Ensure lintr tests in `test_package_style.R` fail in Travis-CI when an
+  inappropriately formatted file is present
 
 ----
