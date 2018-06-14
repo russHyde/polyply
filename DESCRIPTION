@@ -12,8 +12,11 @@ LazyData: true
 Suggests: testthat, lintr
 RoxygenNote: 6.0.1
 Imports: purrr,
-    methods
-Collate: 
+    methods,
+    rlang,
+    tidygraph
+Collate:
+    'polyply_activate.R'
     'polyply_data_validity.R'
     'polyply_merge_functions.R'
     'polyply_poly_frame.R'

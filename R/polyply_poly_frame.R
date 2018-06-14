@@ -28,7 +28,12 @@ as_poly_frame.list <- function(x, merge_fn, ...) {
       is.function(merge_fn)
   )
 
-  structure(x, class = c("poly_frame", "list"), merge_fn = merge_fn)
+  structure(
+    x,
+    class = c("poly_frame", "list"),
+    merge_fn = merge_fn,
+    active = 1
+  )
 }
 
 ###############################################################################
@@ -38,6 +43,7 @@ as_poly_frame.list <- function(x, merge_fn, ...) {
 as.list.poly_frame <- function(x, ...) {
   class(x) <- "list"
   attr(x, "merge_fn") <- NULL
+  attr(x, "active") <- NULL
   x
 }
 
