@@ -30,23 +30,33 @@ test_that("poly_frame construction: valid input", {
     as_poly_frame(list(df1)), "poly_frame", info = "expect a poly_frame"
   )
 
+  pf1 <- as_poly_frame(list(df1))
+
   expect_is(
-    as_poly_frame(list(df1)), "list", info = "poly_frame is a list"
+    pf1, "list", info = "poly_frame is a list"
   )
 
   expect_equal(
-    as_poly_frame(list(df1))[1],
+    pf1[1],
     list(df1),
     info = paste(
-      "poly_frame should be equal to the input list of data-frames",
+      "A `poly_frame` should be equal to the input list of data-frames",
       "from which it was made (modulo attributes)"
     )
   )
 
   expect_true(
-    "merge_fn" %in% names(attributes(as_poly_frame(list(df1)))),
+    "merge_fn" %in% names(attributes(pf1)),
     info = paste(
-      "poly_frame should have a merge-function defined in their attributes"
+      "A `poly_frame` should have a merge-function defined in their attributes"
+    )
+  )
+
+  expect_true(
+    "active" %in% names(attributes(pf1)),
+    info = paste(
+      "A `poly_frame` should have indicate an 'active' data-frame in it's",
+      "attributes"
     )
   )
 })

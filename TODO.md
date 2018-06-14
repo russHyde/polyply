@@ -19,8 +19,9 @@ to the package.
 - [+] Merge a `poly_frame`
 - [+] Convert a `poly_frame` back to a list of data-frames
 - [+] Slice/extract on a `poly_frame`
-- [] 'active' attribute of a `poly_frame`
-- [] `activate` function and subsequent filtering
+- [+] 'active' attribute of a `poly_frame`
+- [+] `activate` method
+- [] `filter`ing pass-through after `activate`
 
 - [+] `lintr`-checking test
     - Dev must use `devtools::test()` or `devtools::check(check_dir = ".")` to
@@ -37,7 +38,8 @@ to the package.
 - [+] store a merging function
 - [+] `merge.poly_frame` method
 - [+] `as.list.poly_frame` method
-- [] `activate.poly_frame` method
+- [+] `activate.poly_frame` method for numeric indices
+- [] `activate.poly_frame` method for varname indexing
 
 ## Functions
 
