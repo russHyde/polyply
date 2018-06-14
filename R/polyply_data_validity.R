@@ -6,7 +6,7 @@
 
 #' @importFrom   methods       is
 #'
-.is_nonempty_list_of_data_frames <- function(x){
+.is_nonempty_list_of_data_frames <- function(x) {
   !missing(x) &&
     length(x) &&
     methods::is(x, "list") &&

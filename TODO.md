@@ -15,17 +15,18 @@ to the package.
 ## Tests
 
 - [+] Construction of a `poly_frame`
-- [] `merge_fn` attribute of a `poly_frame`
+- [+] `merge_fn` attribute of a `poly_frame`
+- [+] Merge a `poly_frame`
+- [+] Convert a `poly_frame` back to a list of data-frames
+- [+] Slice/extract on a `poly_frame`
+- [] 'active' attribute of a `poly_frame`
+- [] `activate` function and subsequent filtering
 
-- [] Merge a `poly_frame`
-
-- [] Convert a `poly_frame` back to a list of data-frames
-- [] Slice/extract on a `poly_frame`
-
-- [+] Add lintr-checking test
-    - Dev must use devtools::test() or devtools::check(check_dir = ".") to
+- [+] `lintr`-checking test
+    - Dev must use `devtools::test()` or `devtools::check(check_dir = ".")` to
       ensure that source-code is available for this test to run
-    - No source code is present upon which to lint when using devtools::check()
+    - No source code is present upon which to lint when using
+      `devtools::check()`
 
 ## Classes
 
@@ -33,14 +34,17 @@ to the package.
 
 - [+] construction using `as_poly_frame`
 - [+] underlying structure is a list of data-frames
-- [] store a merging function
-- [] `merge.poly_frame`
-- [] `as.list.poly_frame`
+- [+] store a merging function
+- [+] `merge.poly_frame` method
+- [+] `as.list.poly_frame` method
+- [] `activate.poly_frame` method
 
 ## Functions
 
 - [+] `as_poly_frame` with bare df-list
-- [] `as_poly_frame` with merging function
+- [+] `as_poly_frame` with merging function
+- [] `poly_frame` function with '...'-expanded data-frame set and a
+  merging-function
 
 ## Documentation
 

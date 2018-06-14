@@ -15,23 +15,46 @@ as_poly_frame <- function(x, ...) {
 
 #' @include      polyply_data_validity.R
 #'
-as_poly_frame.default <- function(x, ...) {
+as_poly_frame.list <- function(x, merge_fn, ...) {
   # check_validity:
-  # - merge_fn is a function
   # - if any names are present, all entries in x should be named
-  # - if merge_fn is not defined, set it to reduce-merge
-  # pf <- list(
-  #  df_list = x,
-  #  merge_fn = merge_fn
-  # )
-  # class(pf) <- "poly_frame"
-  # attr(pf, "active") <- 1
+
+  if (missing(merge_fn)) {
+    merge_fn <- .default_merge_fn
+  }
 
   stopifnot(
-    .is_nonempty_list_of_data_frames(x)
+    .is_nonempty_list_of_data_frames(x) &&
+      is.function(merge_fn)
   )
 
-  structure(x, class = "poly_frame")
+  structure(x, class = c("poly_frame", "list"), merge_fn = merge_fn)
+}
+
+###############################################################################
+
+# standard generics
+
+as.list.poly_frame <- function(x, ...) {
+  class(x) <- "list"
+  attr(x, "merge_fn") <- NULL
+  x
+}
+
+merge.poly_frame <- function(x, ...) {
+  get_merge_fn(x)(x)
+}
+
+###############################################################################
+
+# accessors
+
+get_merge_fn <- function(x) {
+  UseMethod("get_merge_fn")
+}
+
+get_merge_fn.poly_frame <- function(x) {
+  attr(x, "merge_fn")
 }
 
 ###############################################################################
