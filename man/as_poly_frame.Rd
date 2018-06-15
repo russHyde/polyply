@@ -2,10 +2,16 @@
 % Please edit documentation in R/polyply_poly_frame.R
 \name{as_poly_frame}
 \alias{as_poly_frame}
-\title{Create a poly_frame object from a list of data-frames}
+\title{Create a poly_frame object}
 \usage{
 as_poly_frame(x, ...)
 }
+\arguments{
+\item{x}{An R object for conversion into a poly_frame}
+
+\item{...}{Further arguments that define how to construct /
+manipulate the poly_frame.}
+}
 \description{
-Create a poly_frame object from a list of data-frames
+Create a poly_frame object
 }

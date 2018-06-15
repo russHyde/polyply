@@ -21,7 +21,7 @@ to the package.
 - [+] Slice/extract on a `poly_frame`
 - [+] 'active' attribute of a `poly_frame`
 - [+] `activate` method
-- [] `filter`ing pass-through after `activate`
+- [+] `filter`ing pass-through after `activate`
 
 - [+] `lintr`-checking test
     - Dev must use `devtools::test()` or `devtools::check(check_dir = ".")` to
@@ -41,7 +41,7 @@ to the package.
 - [+] `activate.poly_frame` method for numeric indices
 - [] `activate.poly_frame` method for by-name indexing
 - [] `activate.poly_frame` method for as-variable indexing
-- [] `filter`/`filter_` methods
+- [+] `filter`/`filter_` methods
 
 ## Functions
 

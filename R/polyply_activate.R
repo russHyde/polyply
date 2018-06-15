@@ -7,14 +7,26 @@
 
 ###############################################################################
 
-#' NULL function to ensure tidygraph::activate is visible
+# Ensure tidygraph::activate is visible
+
+#' @importFrom   tidygraph     activate
+#' @export
 #'
-#' @importFrom   tidygraph     active   activate
-activate <- tidygraph::activate
+tidygraph::activate
 
 ###############################################################################
 
+#' Activate a data-frame within a poly_frame
+#'
+#' @param        .data         A poly_frame.
+#' @param        what          An index for that data-frame within the
+#'   poly_frame which is to be activated (ie, become the data-frame that is
+#'   prepped for filtering / selecting).
+#'
 #' @importFrom   rlang         enquo   quo_text
+#'
+#' @export
+#'
 activate.poly_frame <- function(.data, what) {
   # At present I'm struggling to define this method in such a way that
   # - integer indexing : activate(pf, 2)

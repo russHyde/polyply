@@ -3,7 +3,12 @@
 # `poly_frame` S3 class/method definitions for `polyply` package
 
 ###############################################################################
-#' Create a poly_frame object from a list of data-frames
+
+#' Create a poly_frame object
+#'
+#' @param        x             An R object for conversion into a poly_frame
+#' @param        ...           Further arguments that define how to construct /
+#'   manipulate the poly_frame.
 #'
 #' @export
 #'
@@ -13,9 +18,15 @@ as_poly_frame <- function(x, ...) {
 
 ###############################################################################
 
+#' Create a poly_frame object from a list of data-frames
+#'
+#' @param        x             A non-empty list of data-frames
+#' @param        merge_fn      A function that defines how the data-frames are
+#'   to be merged together
+#'
 #' @include      polyply_data_validity.R
 #'
-as_poly_frame.list <- function(x, merge_fn, ...) {
+as_poly_frame.list <- function(x, merge_fn) {
   # check_validity:
   # - if any names are present, all entries in x should be named
 
@@ -40,6 +51,7 @@ as_poly_frame.list <- function(x, merge_fn, ...) {
 
 # standard generics
 
+#' @export
 as.list.poly_frame <- function(x, ...) {
   class(x) <- "list"
   attr(x, "merge_fn") <- NULL
@@ -47,6 +59,7 @@ as.list.poly_frame <- function(x, ...) {
   x
 }
 
+#' @export
 merge.poly_frame <- function(x, ...) {
   get_merge_fn(x)(x)
 }

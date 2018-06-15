@@ -5,6 +5,15 @@
 ###############################################################################
 
 #' @importFrom   dplyr         filter
+#' @export
+#'
+dplyr::filter
+
+#' Filter the active data-frame within a poly_frame
+#'
+#' @param        .data         A poly_frame.
+#' @param        ...           Filtering predicates, as would be used in
+#'   dplyr::filter.
 #'
 #' @export
 
@@ -14,7 +23,4 @@ filter.poly_frame <- function(.data, ...) {
   new_poly_frame
 }
 
-#' @importFrom   dplyr         filter
-#' @export
-
-dplyr::filter
+###############################################################################
