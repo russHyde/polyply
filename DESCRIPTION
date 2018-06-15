@@ -14,9 +14,11 @@ RoxygenNote: 6.0.1
 Imports: purrr,
     methods,
     rlang,
-    tidygraph
+    tidygraph,
+    dplyr
 Collate:
     'polyply_activate.R'
     'polyply_data_validity.R'
+    'polyply_filter.R'
     'polyply_merge_functions.R'
     'polyply_poly_frame.R'
