@@ -39,7 +39,10 @@ to the package.
 - [+] `merge.poly_frame` method
 - [+] `as.list.poly_frame` method
 - [+] `activate.poly_frame` method for numeric indices
-- [] `activate.poly_frame` method for varname indexing
+- [] `activate.poly_frame` method for by-name indexing
+- [] `activate.poly_frame` method for as-variable indexing
+- [] `filter`/`filter_` methods
+
 
 ## Functions
 
