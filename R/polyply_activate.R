@@ -9,7 +9,7 @@
 
 #' NULL function to ensure tidygraph::activate is visible
 #'
-#' @importFrom   tidygraph        active   activate
+#' @importFrom   tidygraph     active   activate
 activate <- tidygraph::activate
 
 ###############################################################################
@@ -25,19 +25,19 @@ activate.poly_frame <- function(.data, what) {
   # TODO: Read Metaprogramming section of Advanced R (v2)
   # -
 
-  #eqw <- rlang::enquo(what)
-  #w <- rlang::quo_text(eqw)
+  # eqw <- rlang::enquo(what)
+  # w <- rlang::quo_text(eqw)
 
-  #print(eqw)
-  #print(w)
+  # print(eqw)
+  # print(w)
 
   active(.data) <- if (is.numeric(what)) {
     stopifnot(what %in% (1:length(.data)))
     what
   }
-  #else {
+  # else {
   #  rlang::quo_text(rlang::enquo(what))
-  #}
+  # }
   .data
 }
 
@@ -51,6 +51,10 @@ active.poly_frame <- function(x) {
   attr(x, "active")
 }
 
+extract_active_df <- function(x) {
+  x[[active(x)]]
+}
+
 ###############################################################################
 
 `active<-` <- function(x, value) {
@@ -59,6 +63,12 @@ active.poly_frame <- function(x) {
 
 `active<-.poly_frame` <- function(x, value) {
   attr(x, "active") <- value
+  x
+}
+
+update_active_df <- function(x, .df) {
+  stopifnot(is.data.frame(.df))
+  x[[active(x)]] <- .df
   x
 }
 
