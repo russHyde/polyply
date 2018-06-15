@@ -43,7 +43,6 @@ to the package.
 - [] `activate.poly_frame` method for as-variable indexing
 - [] `filter`/`filter_` methods
 
-
 ## Functions
 
 - [+] `as_poly_frame` with bare df-list
