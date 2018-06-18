@@ -42,6 +42,7 @@ to the package.
 - [] `activate.poly_frame` method for by-name indexing
 - [] `activate.poly_frame` method for as-variable indexing
 - [+] `filter`/`filter_` methods
+- [+] `set_merge_fn` method
 
 ## Functions
 
@@ -52,10 +53,7 @@ to the package.
 
 ## Documentation
 
-- [] Style-guide
-    - Classes are S3
-    - Use tidyverse style-guide
-    - Use styler and lintr
+- [+] Style-guide
 
 ## Example data
 
@@ -68,7 +66,7 @@ to the package.
 
 ## Continuous Integration
 
-- [] Add Travis file
+- [+] Add Travis file
 
 - [] Ensure lintr tests in `test_package_style.R` fail in Travis-CI when an
   inappropriately formatted file is present
