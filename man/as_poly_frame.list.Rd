@@ -10,7 +10,7 @@
 \item{x}{A non-empty list of data-frames}
 
 \item{merge_fn}{A function that defines how the data-frames are
-to be merged together}
+to be merged together.}
 }
 \description{
 Create a poly_frame object from a list of data-frames

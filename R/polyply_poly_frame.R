@@ -22,7 +22,7 @@ as_poly_frame <- function(x, ...) {
 #'
 #' @param        x             A non-empty list of data-frames
 #' @param        merge_fn      A function that defines how the data-frames are
-#'   to be merged together
+#'   to be merged together.
 #'
 #' @include      polyply_data_validity.R
 #'
@@ -66,7 +66,7 @@ merge.poly_frame <- function(x, ...) {
 
 ###############################################################################
 
-# accessors
+# accessors & setters
 
 get_merge_fn <- function(x) {
   UseMethod("get_merge_fn")
@@ -74,6 +74,15 @@ get_merge_fn <- function(x) {
 
 get_merge_fn.poly_frame <- function(x) {
   attr(x, "merge_fn")
+}
+
+set_merge_fn <- function(x, merge_fn) {
+  UseMethod("set_merge_fn")
+}
+
+set_merge_fn.poly_frame <- function(x, merge_fn) {
+  attr(x, "merge_fn") <- merge_fn
+  x
 }
 
 ###############################################################################

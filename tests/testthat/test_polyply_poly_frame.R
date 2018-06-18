@@ -104,7 +104,7 @@ test_that("poly_frame methods: type-conversion and subsetting", {
 
 ###############################################################################
 
-test_that("poly_frame methods: merge-function accessor / runner", {
+test_that("poly_frame methods: merge-function accessor / runner / setter", {
   df1 <- data.frame(a = 1:3)
   df2 <- data.frame(b = 2:4)
   .mf_helper <- function(x, y) {
@@ -150,6 +150,12 @@ test_that("poly_frame methods: merge-function accessor / runner", {
       "merge a poly_frame with two data-frames using a",
       "non-standard merging function"
     )
+  )
+
+  expect_equal(
+    set_merge_fn(pf1, mf),
+    pf2,
+    info = "using set_merge_fn to update the merge-function in a poly_frame"
   )
 })
 
