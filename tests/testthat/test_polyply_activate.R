@@ -5,7 +5,6 @@ context("Tests for setting/accessing the currently-active data-frame")
 ###############################################################################
 
 test_that("Which data-frame is active?", {
-
   df1 <- data.frame(a = 1:3)
   df2 <- data.frame(b = 2:4)
   df3 <- data.frame(a = 2:3, c = letters[1:2])
@@ -24,7 +23,8 @@ test_that("Which data-frame is active?", {
   expect_equal(
     active(pf1),
     2,
-    info = paste("after activating using active(...)<-X, the X'th data-frame",
+    info = paste(
+      "after activating using active(...)<-X, the X'th data-frame",
       "should be active"
     )
   )
@@ -32,7 +32,8 @@ test_that("Which data-frame is active?", {
   expect_equal(
     active(activate(pf2, 2)),
     2,
-    info = paste("after activating using activate(x, y), the y'th data-frame",
+    info = paste(
+      "after activating using activate(x, y), the y'th data-frame",
       "should be active [1]"
     )
   )
@@ -40,7 +41,8 @@ test_that("Which data-frame is active?", {
   expect_equal(
     active(activate(pf2, 3)),
     3,
-    info = paste("after activating using activate(x, y), the y'th data-frame",
+    info = paste(
+      "after activating using activate(x, y), the y'th data-frame",
       "should be active [2]"
     )
   )

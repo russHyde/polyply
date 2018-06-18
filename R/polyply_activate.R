@@ -34,6 +34,12 @@ activate.poly_frame <- function(.data, what) {
   # - by-variable indexing : activate(pf, some_data_frame)
   # can all be done
   #
+  # It should be possible to do both by-variable-indexing and integer-indexing
+  # since dplyr does this, eg, in select(my_df, 1:3, some_column)
+  #
+  # And I could define '_'-suffixed functions to mimic the entry-name indexing
+  # used in select_, filter_ etc
+  #
   # TODO: Read Metaprogramming section of Advanced R (v2)
   # -
 
@@ -55,19 +61,40 @@ activate.poly_frame <- function(.data, what) {
 
 ###############################################################################
 
+#' Return the index of the currently-active data-frame in the poly_frame
+#'
+#' @param        x             An object which has a 'active' attribute.
+#'
+
 active <- function(x) {
   UseMethod("active")
 }
 
+#'
+#' @param        x             A poly_frame.
+
 active.poly_frame <- function(x) {
   attr(x, "active")
 }
+
+#' Return the contents of the currently-active data-frame from the poly_frame
+#'
+#' @param        x             A poly_frame.
 
 extract_active_df <- function(x) {
   x[[active(x)]]
 }
 
 ###############################################################################
+
+#' Define which of the data-frames in a poly_frame is the `currently-active`
+#' data-frame
+#'
+#' @param        x             A poly_frame.
+#' @param        value         The index of an entry in the poly_frame. This
+#'   will become the active data-frame. [Currently: data-frames can be indexed
+#'   by integers only].
+#'
 
 `active<-` <- function(x, value) {
   UseMethod("active<-")
@@ -77,6 +104,15 @@ extract_active_df <- function(x) {
   attr(x, "active") <- value
   x
 }
+
+#' Change the contents of the currently-active data-frame in the poly_frame
+#'
+#' This may alter your ability to merge the data-frames correctly
+#'
+#' @param        x             A poly_frame
+#' @param        .df           A data-frame to be stored in the active-slot of
+#'   the poly_frame \code{x}
+#'
 
 update_active_df <- function(x, .df) {
   stopifnot(is.data.frame(.df))
