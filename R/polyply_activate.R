@@ -61,7 +61,7 @@ activate.poly_frame <- function(.data, what) {
 
 ###############################################################################
 
-#' Return the index of the currently-active data-frame in the poly_frame
+#' Return the index of the currently-active data-frame in a poly_frame
 #'
 #' @param        x             An object which has a 'active' attribute.
 #'
@@ -70,6 +70,7 @@ active <- function(x) {
   UseMethod("active")
 }
 
+#' Return the index of the currently-active data-frame in a poly_frame
 #'
 #' @param        x             A poly_frame.
 
