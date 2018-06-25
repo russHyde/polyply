@@ -1,6 +1,12 @@
 # `polyply` - an R package for manipulation of multiple data-frames in a single
 magrittr pipeline
 
+[![Build Status](
+  https://travis-ci.org/russHyde/polyply.svg?branch=master
+  )](
+  https://travis-ci.org/russHyde/polyply
+)
+
 I've talked about these ideas on twitter and biostars recently, but haven't put
 the code together yet.
 
