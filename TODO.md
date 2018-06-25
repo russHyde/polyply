@@ -22,7 +22,6 @@ to the package.
 - [+] 'active' attribute of a `poly_frame`
 - [+] `activate` method
 - [+] `filter`ing pass-through after `activate`
-
 - [+] `lintr`-checking test
     - Dev must use `devtools::test()` or `devtools::check(check_dir = ".")` to
       ensure that source-code is available for this test to run
@@ -40,7 +39,7 @@ to the package.
 - [+] `as.list.poly_frame` method
 - [+] `activate.poly_frame` method for numeric indices
 - [] `activate.poly_frame` method for by-name indexing
-- [] `activate.poly_frame` method for as-variable indexing
+- [+] `activate.poly_frame` method for as-variable indexing
 - [+] `filter`/`filter_` methods
 - [+] `set_merge_fn` method
 
@@ -54,6 +53,9 @@ to the package.
 ## Documentation
 
 - [+] Style-guide
+- [] Memory usage while working with polyply:
+    - How big can a vector be in R and does this impose constraints on the size
+      of tables we can join in-memory
 
 ## Example data
 
@@ -67,8 +69,7 @@ to the package.
 ## Continuous Integration
 
 - [+] Add Travis file
-
-- [] Ensure lintr tests in `test_package_style.R` fail in Travis-CI when an
+- [+] Ensure lintr tests in `test_package_style.R` fail in Travis-CI when an
   inappropriately formatted file is present
 
 ----

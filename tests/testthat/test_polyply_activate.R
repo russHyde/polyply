@@ -2,6 +2,53 @@
 
 context("Tests for setting/accessing the currently-active data-frame")
 
+# There's more tests that normal because I've never had to write
+# quoting/unquoting arguments before.
+
+###############################################################################
+
+test_that("activate a data-frame", {
+  df1 <- data.frame(a = 1:3)
+  df2 <- data.frame(b = 2:4)
+  df3 <- data.frame(a = 2:3, c = letters[1:2])
+
+  pf1 <- as_poly_frame(list(df1, df2, df3))
+  pf2 <- as_poly_frame(list(x1 = df1, x2 = df2, x3 = df3))
+
+  # -- activate a data-frame by numeric index -- #
+  expect_error(
+    activate(pf1, 0),
+    info = "numeric-index is less than that of any contained data-frame"
+  )
+  expect_error(
+    activate(pf1, 4),
+    info = "numeric-index is greater than that of any contained data-frame"
+  )
+  expect_error(
+    activate(pf1, 2.5),
+    info = "numeric-index should be numerically equal to an integer"
+  )
+
+  # -- activate a data-frame by varname -- #
+  expect_error(
+    activate(pf2, y),
+    info = paste(
+      "activate(pf2, varname) then varname should be the name of an entry in",
+      "the list underlying pf2"
+    )
+  )
+
+  # -- number of arguments -- #
+  expect_error(
+    activate(pf2, 2:3),
+    info = "can only activate() on a single index"
+  )
+  expect_error(
+    activate(pf2, numeric(0)),
+    info = "user must provide an index to activate() on"
+  )
+})
+
 ###############################################################################
 
 test_that("Which data-frame is active?", {
@@ -47,18 +94,32 @@ test_that("Which data-frame is active?", {
     )
   )
 
-  # -- #
-  expect_error(
-    activate(pf2, 0),
-    info = "numeric-index is less than that of any contained data-frame"
+  expect_equal(
+    active(activate(pf3, b)),
+    "b",
+    info = paste(
+      "after activating it using activate(pf3, b), the 'b' data-frame should",
+      "be active"
+    )
   )
-  expect_error(
-    activate(pf2, 4),
-    info = "numeric-index is greater than that of any contained data-frame"
+
+  x <- 4
+  expect_equal(
+    active(activate(pf2, sqrt(x))),
+    2,
+    info = "activate() should work ok with symbolic evaluation to an integer"
   )
-  expect_error(
-    activate(pf2, 2.5),
-    info = "numeric-index should be numerically equal to an integer"
+
+  a <- 2
+  expect_equal(
+    active(activate(pf3, a)),
+    "a",
+    info = paste(
+      "If a variable 'a' is defined in scope and is also the name of an entry",
+      "in the poly_frame, after activating using activate(pf, a) it should",
+      "activate the 'a' data-frame in the poly-frame, regardless of the value",
+      "stored in 'a'"
+    )
   )
 })
 
@@ -85,7 +146,7 @@ test_that("get the active dataframe", {
   )
 })
 
-test_that("set the active dataframe", {
+test_that("set the contents of the active dataframe", {
   df1 <- data.frame(a = 1:3)
   df2 <- data.frame(b = 2:4)
   df3 <- data.frame(a = 1:2, b = 2:3)

@@ -1,5 +1,4 @@
-# `polyply` - an R package for manipulation of multiple data-frames in a single
-magrittr pipeline
+# `polyply` - an R package for manipulation of multiple data-frames in a single magrittr pipeline
 
 [![Build Status](
   https://travis-ci.org/russHyde/polyply.svg?branch=master

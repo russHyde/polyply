@@ -21,9 +21,10 @@ tidygraph::activate
 #' @param        .data         A poly_frame.
 #' @param        what          An index for that data-frame within the
 #'   poly_frame which is to be activated (ie, become the data-frame that is
-#'   prepped for filtering / selecting).
+#'   prepped for filtering / selecting). This may be specified by an integer
+#'   index or by variable-name (ie, \code{activate(pf, some_df_name)}).
 #'
-#' @importFrom   rlang         enquo   quo_text
+#' @importFrom   rlang         enquo   quo_text   quo_is_symbol
 #'
 #' @export
 #'
@@ -34,28 +35,27 @@ activate.poly_frame <- function(.data, what) {
   # - by-variable indexing : activate(pf, some_data_frame)
   # can all be done
   #
-  # It should be possible to do both by-variable-indexing and integer-indexing
-  # since dplyr does this, eg, in select(my_df, 1:3, some_column)
+  # At present the user should be able to use both by-variable-name and
+  # by-integer indexing
   #
   # And I could define '_'-suffixed functions to mimic the entry-name indexing
   # used in select_, filter_ etc
   #
-  # TODO: Read Metaprogramming section of Advanced R (v2)
-  # -
 
-  # eqw <- rlang::enquo(what)
-  # w <- rlang::quo_text(eqw)
+  eqw <- rlang::enquo(what)
 
-  # print(eqw)
-  # print(w)
-
-  active(.data) <- if (is.numeric(what)) {
-    stopifnot(what %in% (1:length(.data)))
+  w <- if (rlang::quo_is_symbol(eqw)) {
+    rlang::quo_text(eqw)
+  } else {
     what
   }
-  # else {
-  #  rlang::quo_text(rlang::enquo(what))
-  # }
+
+  stopifnot(length(w) == 1)
+  stopifnot(
+    w %in% names(.data) || w %in% seq(length(.data))
+  )
+  active(.data) <- w
+
   .data
 }
 
