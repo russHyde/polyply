@@ -53,13 +53,19 @@ to the package.
 ## Documentation
 
 - [+] Style-guide
+- [] Vignette
 - [] Memory usage while working with polyply:
     - How big can a vector be in R and does this impose constraints on the size
       of tables we can join in-memory
+- [] Add a `CONTRIBUTING.md`
 
 ## Example data
 
-- []
+- [] Animals from MASS (suitably reformatted);
+    - add a second dataframe mapping common-name to species
+    - add a third data-frame mapping species to Family
+    - and then Family to Order
+    - Plot brain ~ body split by Family
 
 ## Git structure
 
