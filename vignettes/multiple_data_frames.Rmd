@@ -2,7 +2,9 @@
 title: "Managing multiple data-frames"
 author: "Russ Hyde, University of Glasgow"
 date: "`r Sys.Date()`"
-output: ioslides_presentation
+output:
+  ioslides_presentation:
+    df_print: paged
 ---
 
 <!-- 
@@ -62,6 +64,9 @@ div.footnotes {
 suppressPackageStartupMessages({
   library(Biobase)
   library(DiagrammeR)
+  library(pryr)
+  library(tibble)
+  library(tidyr)
 })
 ```
 
@@ -81,6 +86,8 @@ suppressPackageStartupMessages({
 
 # Data-Modelling
 
+<!-- Is tidy-data always the answer? -->
+
 ## Tidy Data and the Normal-Forms
 
 <!-- TODO: NF bullets should have staggered entry -->
@@ -90,6 +97,7 @@ In <footnote content="http://vita.had.co.nz/papers/tidy-data.html">tidy data</fo
 - TD1 - Each variable forms a column.
 - TD2 - Each observation forms a row.
 - TD3 - Each type of observational unit forms a table.
+- [TD4 - A key permitting table-joins is present]
 
 Boyce-Codd <footnote content="Modified from
 https://en.wikipedia.org/wiki/First_normal_form">Normal-Forms</footnote>
@@ -101,15 +109,17 @@ https://en.wikipedia.org/wiki/First_normal_form">Normal-Forms</footnote>
 
 ## Common _Untidy_ Data Structures
 
+Tidy-data / normal-forms help reduce duplication
 
+But untidy data-structures are useful if they:
+- increase access efficiency
+- decrease code complexity
 
-## The `Biobase::ExpressionSet`
+## `Biobase::ExpressionSet`
 
-```{r}
+```{r, message=FALSE, eval=FALSE}
 Biobase::ExpressionSet()
 ```
-
-----
 
 <!-- TODO: colour the sides of the nodes according to matching dimensions
      - eg, colour of assayData and featureData verticals should match,
@@ -143,11 +153,62 @@ digraph eset_boxes {
 
   ExpressionSet         [width = 2]
   ExpressionSet -> A    [lhead = eset]
+  ExpressionSet -> protocolData
+  ExpressionSet -> experimentData
+  ExpressionSet -> Annotation
 }
 ")
 ```
 
+## `Biobase::ExpressionSet` (cont.)
+
+Conversion of the `assayData` to meet tidy-data standards:
+
+```{r, echo = FALSE}
+m <- as.matrix(data.frame(
+  sample1 = c(12.2, 19.1, 0.5),
+  sample2 = c(111, 10.5, 3.4),
+  sample3 = c(129, 123, 1.1),
+  row.names = paste0("gene", 1:3)
+))
+```
+
+```{r}
+m # our assayData
+```
+
+Doesn't meet tidy-data standards:
+
+- rows correspond to features, columns to samples
+- not all variables are in columns (since row-IDs are meaningful)
+- entries are the same 'type' of variable
+
 ----
+
+Easy fix:
+
+```{r}
+m %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column(var = "feature_id") %>%
+  tidyr::gather(key = "sample_id", value = "value", -feature_id) %>%
+  head()
+```
+
+## But ...
+
+<!-- 
+    - Matrix representation was more dense: see object_size(m)
+    - Lost all encapsulation
+    - (After modifying featureData / phenoData to match)
+        - Have to join rather than index
+    - Have to keep track of multiple data-frames, rather than one
+      data-structure
+    - Only real benefit of the multiple data-frame structure is ease of summary
+      / plotting approaches in dplyr / ggplot
+-->
+
+<!-- Remove this next section: -->
 
 # `dplyr` / `tidyr`: Workflows and Verbs
 
