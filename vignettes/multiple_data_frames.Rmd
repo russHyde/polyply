@@ -1,0 +1,182 @@
+---
+title: "Managing multiple data-frames"
+author: "Russ Hyde, University of Glasgow"
+date: "`r Sys.Date()`"
+output: ioslides_presentation
+---
+
+<!-- 
+PLAN:
+- data-modelling
+    - tidy data
+    - 2.5th normal form
+    - ExpressionSet/Matrix as an untidy example
+- tidyverse pipelines and verbs
+    - filter, select, mutate, join, spread, gather
+- tidygraph
+    - tidy data version of igraph
+    - examples of using tidygraph
+    - the activate verb
+- polyply
+-->
+
+<!--
+  Styling to allow footnotes to appear on the same slide as their definition
+  - Borrowed from https://stackoverflow.com/questions/42690955
+-->
+
+<style>
+div.footnotes {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  width: 80%;
+  font-size: 0.6em;
+}
+</style>
+
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+  ></script>
+
+<script>
+  $(document).ready(function() {
+    $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
+
+    $('footnote').each(function(index) {
+      var text  = $(this).html();
+      var fnNum = (index+1).toString().sup();
+      $(this).html(text + fnNum);
+
+      var footnote   = fnNum + ': ' + $(this).attr('content') + '<br/>';
+      var oldContent = $(this).parents('slide').children('div.footnotes').html();
+      var newContent = oldContent + footnote;
+      $(this).parents('slide').children('div.footnotes').html(newContent);
+    });
+  });
+</script>
+
+<!-- Packages -->
+
+```{r, echo = FALSE}
+suppressPackageStartupMessages({
+  library(Biobase)
+  library(DiagrammeR)
+})
+```
+
+<!-- Presentation code -->
+
+## Social:
+
+- @POG_LRC
+    - The Paul O'Gorman Leukaemia Research Centre
+
+- @haematobot
+    - Personal mumblings about code / analysis / bioinformatics and seemingly
+    very little else ...
+
+- https://biolearnr.blogspot.com/
+    - Even more mumblings
+
+# Data-Modelling
+
+## Tidy Data and the Normal-Forms
+
+<!-- TODO: NF bullets should have staggered entry -->
+
+In <footnote content="http://vita.had.co.nz/papers/tidy-data.html">tidy data</footnote>:
+
+- TD1 - Each variable forms a column.
+- TD2 - Each observation forms a row.
+- TD3 - Each type of observational unit forms a table.
+
+Boyce-Codd <footnote content="Modified from
+https://en.wikipedia.org/wiki/First_normal_form">Normal-Forms</footnote>
+(Further extensions exist):
+
+- NF1a - Don't repeat groups in individual tables (~ TD1)
+- NF1b - Make a separate table for each set of related data (~ TD3)
+- NF1c - Identify each set of related data with a primary key (~ TD2)
+
+## Common _Untidy_ Data Structures
+
+
+
+## The `Biobase::ExpressionSet`
+
+```{r}
+Biobase::ExpressionSet()
+```
+
+----
+
+<!-- TODO: colour the sides of the nodes according to matching dimensions
+     - eg, colour of assayData and featureData verticals should match,
+           colour of phenoData vertical should match assayData horizontal
+           -->
+
+```{r, echo = FALSE}
+grViz("
+digraph eset_boxes {
+
+  # graph, node, and edge definitions
+  graph [compound = true, nodesep = .5, ranksep = .25,
+         color = crimson]
+
+  node [fontname = Helvetica, fontcolor = darkslategray,
+        shape = rectangle, fixedsize = true, width = 3,
+        color = darkslategray]
+
+  edge [color = grey, arrowhead = none, arrowtail = none]
+
+  subgraph eset {
+    # nodes
+    node [fixedsize = true]
+    A [label = 'assayData\n(matrix)\n\nnrow=|genes|\nncol=|samples|', height = 3, width = 2]
+    B [label = 'featureData\n(data-frame)\n\nnrow=|genes|', height = 3, width = 2.5]
+    C [label = 'phenoData\n(data-frame)\n\nnrow=|samples|', height = 2, width = 2.5]
+  
+    # edges
+    A->B A->C
+  }
+
+  ExpressionSet         [width = 2]
+  ExpressionSet -> A    [lhead = eset]
+}
+")
+```
+
+----
+
+# `dplyr` / `tidyr`: Workflows and Verbs
+
+## Where `dplyr` excels
+
+## Multiple data-frames
+
+----
+
+# `tidygraph` and graph / network analysis
+
+## Wrapping around `igraph`
+
+## Examples: Centrality
+
+## The `activate` verb
+
+----
+
+# `polyply` and multiple, linked data-frames (WORK-IN-PROGRESS)
+
+----
+
+<!--
+Appendix
+
+- NF2 - Every non-prime attribute of the relation is dependent on the whole of
+    every candidate key
+- NF3 - Every non-prime attribute of a table is non-transitively dependent on
+    every key of that table
+
+-->

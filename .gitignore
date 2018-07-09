@@ -4,3 +4,4 @@
 .Ruserdata
 *.swp
 *.Rcheck
+inst/doc
