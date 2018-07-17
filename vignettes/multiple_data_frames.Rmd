@@ -88,7 +88,7 @@ suppressPackageStartupMessages({
 
 <!-- Is tidy-data always the answer? -->
 
-## Tidy Data and the Normal-Forms
+## Tidy Data and the Normal-Forms {.build}
 
 <!-- TODO: NF bullets should have staggered entry -->
 
@@ -109,10 +109,12 @@ https://en.wikipedia.org/wiki/First_normal_form">Normal-Forms</footnote>
 
 ## Common _Untidy_ Data Structures
 
-Tidy-data / normal-forms help reduce duplication
+Tidy-data / normal-forms help reduce duplication and play nicely with `ggplot2`
 
 But untidy data-structures are useful if they:
+
 - increase access efficiency
+
 - decrease code complexity
 
 ## `Biobase::ExpressionSet`
@@ -160,6 +162,8 @@ digraph eset_boxes {
 ")
 ```
 
+Figure made with `DiagrammeR`
+
 ## `Biobase::ExpressionSet` (cont.)
 
 Conversion of the `assayData` to meet tidy-data standards:
@@ -185,28 +189,28 @@ Doesn't meet tidy-data standards:
 
 ----
 
-Easy fix:
+Easy <footnote content="... or as.data.frame / rownames_to_column / gather">fix</footnote>:
 
 ```{r}
-m %>%
-  as.data.frame() %>%
-  tibble::rownames_to_column(var = "feature_id") %>%
-  tidyr::gather(key = "sample_id", value = "value", -feature_id) %>%
-  head()
+m2 <- reshape2::melt(
+    m,
+    varnames = c("feature_id", "sample_id"),
+    as.is = TRUE
+  )
+
+head(m2, 4)
 ```
 
 ## But ...
 
-<!-- 
-    - Matrix representation was more dense: see object_size(m)
-    - Lost all encapsulation
-    - (After modifying featureData / phenoData to match)
-        - Have to join rather than index
+- Matrix representation was more dense: see object_size(m)
+
+- Lost all encapsulation
+
+- (After modifying featureData / phenoData to match)
+    - Have to join rather than index
     - Have to keep track of multiple data-frames, rather than one
       data-structure
-    - Only real benefit of the multiple data-frame structure is ease of summary
-      / plotting approaches in dplyr / ggplot
--->
 
 <!-- Remove this next section: -->
 
