@@ -2,6 +2,7 @@
 
 S3method(activate,poly_frame)
 S3method(as.list,poly_frame)
+S3method(as_poly_frame,list)
 S3method(filter,poly_frame)
 S3method(merge,poly_frame)
 export(activate)

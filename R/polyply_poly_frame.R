@@ -10,6 +10,7 @@
 #' @param        ...           Further arguments that define how to construct /
 #'   manipulate the poly_frame.
 #'
+#' @rdname       as_poly_frame
 #' @export
 #'
 as_poly_frame <- function(x, ...) {
@@ -25,6 +26,7 @@ as_poly_frame <- function(x, ...) {
 #'   to be merged together.
 #'
 #' @include      polyply_data_validity.R
+#' @export
 #'
 as_poly_frame.list <- function(x, merge_fn) {
   # check_validity:
