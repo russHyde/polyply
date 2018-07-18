@@ -1,5 +1,6 @@
 ---
 title: "Managing multiple data-frames"
+subtitle: "Presented to EdinbR R-Users Group, 2018-07-18"
 author: "Russ Hyde, University of Glasgow"
 date: "`r Sys.Date()`"
 output:
@@ -12,9 +13,8 @@ PLAN:
 - data-modelling
     - tidy data
     - 2.5th normal form
+    - tidying-up of a simple data-frame into two conceptually-linked data-frames
     - ExpressionSet/Matrix as an untidy example
-- tidyverse pipelines and verbs
-    - filter, select, mutate, join, spread, gather
 - tidygraph
     - tidy data version of igraph
     - examples of using tidygraph
@@ -64,9 +64,12 @@ div.footnotes {
 suppressPackageStartupMessages({
   library(Biobase)
   library(DiagrammeR)
+  library(igraph)
+  library(igraphdata)
   library(pryr)
   library(tibble)
   library(tidyr)
+  library(tidygraph)
 })
 ```
 
@@ -90,8 +93,6 @@ suppressPackageStartupMessages({
 
 ## Tidy Data and the Normal-Forms {.build}
 
-<!-- TODO: NF bullets should have staggered entry -->
-
 In <footnote content="http://vita.had.co.nz/papers/tidy-data.html">tidy data</footnote>:
 
 - TD1 - Each variable forms a column.
@@ -99,13 +100,8 @@ In <footnote content="http://vita.had.co.nz/papers/tidy-data.html">tidy data</fo
 - TD3 - Each type of observational unit forms a table.
 - [TD4 - A key permitting table-joins is present]
 
-Boyce-Codd <footnote content="Modified from
-https://en.wikipedia.org/wiki/First_normal_form">Normal-Forms</footnote>
-(Further extensions exist):
-
-- NF1a - Don't repeat groups in individual tables (~ TD1)
-- NF1b - Make a separate table for each set of related data (~ TD3)
-- NF1c - Identify each set of related data with a primary key (~ TD2)
+See also, Boyce-Codd
+<footnote content="https://en.wikipedia.org/wiki/First_normal_form">Normal-Forms</footnote> and relational-database-design.
 
 ## Common _Untidy_ Data Structures
 
@@ -116,6 +112,8 @@ But untidy data-structures are useful if they:
 - increase access efficiency
 
 - decrease code complexity
+
+- play nicely with other important things
 
 ## `Biobase::ExpressionSet`
 
@@ -203,7 +201,7 @@ head(m2, 4)
 
 ## But ...
 
-- Matrix representation was more dense: see object_size(m)
+- Matrix representation was more dense
 
 - Lost all encapsulation
 
@@ -214,34 +212,82 @@ head(m2, 4)
 
 <!-- Remove this next section: -->
 
-# `dplyr` / `tidyr`: Workflows and Verbs
+## That multi-data-frame _thing_
 
-## Where `dplyr` excels
+For a reasonably complex project:
 
-## Multiple data-frames
+- tidy-data / normal-forms mean more data-frames
 
-----
+Wanted:
 
-# `tidygraph` and graph / network analysis
+- a lightweight approach to working with multiple 'conceptually-related'
+data-frames
 
-## Wrapping around `igraph`
+- that plays nicely with `tidyverse` verbs
 
-## Examples: Centrality
+- that feeds into `ggplot2`
+
+- that plays nicely with untidy data-structures I use _all the time_
+
+# `tidygraph` already does this
+
+## Basics of 'graph theory' speak {.columns-2}
+
+```{r, echo = FALSE}
+data(Koenigsberg, package="igraphdata")
+par(mfrow=c(1, 3))
+plot(Koenigsberg)
+```
+
+A graph is made up of two sets:
+
+- _V_, a set of vertices:
+    - aka nodes, actors, ...
+
+- _E_, a set of edges:
+    - pairwise relationships between vertices
+    - aka interactions, lines, arcs, ...
+
+- Need to store attributes for both nodes and edges
+
+## `tbl_graph` data structure
+
+```{r}
+data("Koenigsberg", package = "igraphdata")
+tg <- tidygraph::as_tbl_graph(Koenigsberg)
+
+# Nodes data shows up first:
+tg
+```
+
+## `tbl_graph` data structure
+
+```{r}
+# If we make the 'edges' active, the edge-data shows up first:
+activate(tg, edges)
+```
 
 ## The `activate` verb
 
-----
+Think of the `tbl_graph` as `list[nodes, edges]`
 
-# `polyply` and multiple, linked data-frames (WORK-IN-PROGRESS)
+To modify the contents of a given data-frame, `activate` it:
 
-----
+```{r}
+tg %>%
+  activate(edges) %>%
+  mutate(weight = nchar(name))
+```
 
-<!--
-Appendix
+# `polyply` and multiple, linked data-frames
 
-- NF2 - Every non-prime attribute of the relation is dependent on the whole of
-    every candidate key
-- NF3 - Every non-prime attribute of a table is non-transitively dependent on
-    every key of that table
+## `polyply` {.build}
 
--->
+`tidygraph` is really a wrapper around the package `igraph`
+
+- `igraph` stores graphs in a slightly different format
+
+But I liked the idea of holding connected data-frames in one place
+
+## (WORK-IN-PROGRESS: so please be nice)
+
