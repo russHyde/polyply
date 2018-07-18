@@ -8,20 +8,6 @@ output:
     df_print: paged
 ---
 
-<!-- 
-PLAN:
-- data-modelling
-    - tidy data
-    - 2.5th normal form
-    - tidying-up of a simple data-frame into two conceptually-linked data-frames
-    - ExpressionSet/Matrix as an untidy example
-- tidygraph
-    - tidy data version of igraph
-    - examples of using tidygraph
-    - the activate verb
-- polyply
--->
-
 <!--
   Styling to allow footnotes to appear on the same slide as their definition
   - Borrowed from https://stackoverflow.com/questions/42690955
@@ -64,9 +50,16 @@ div.footnotes {
 suppressPackageStartupMessages({
   library(Biobase)
   library(DiagrammeR)
+  library(dplyr)
+  library(ggplot2)
   library(igraph)
   library(igraphdata)
+  library(leukemiasEset)
   library(pryr)
+  library(purrr)
+  library(reshape2)
+  library(stringr)
+  library(taxize)
   library(tibble)
   library(tidyr)
   library(tidygraph)
@@ -75,10 +68,15 @@ suppressPackageStartupMessages({
 
 <!-- Presentation code -->
 
-## Social:
+## Background and Links:
 
-- @POG_LRC
-    - The Paul O'Gorman Leukaemia Research Centre
+- @POG_LRC / @GUcancersci / @bloodwise_uk
+    - I'm a postdoc bioinformatician at The Paul O'Gorman (POG) Leukaemia
+    Research Centre (University of Glasgow)
+    - ... working for Prof. Mhairi Copland (POG) and Dr. David Vetrie
+    (Wolfson-Wohl Cancer Research Centre)
+    - ... on a Bloodwise-funded grant
+    - ... into chronic-myeloid leukaemia
 
 - @haematobot
     - Personal mumblings about code / analysis / bioinformatics and seemingly
@@ -87,9 +85,26 @@ suppressPackageStartupMessages({
 - https://biolearnr.blogspot.com/
     - Even more mumblings
 
-# Data-Modelling
+## Preamble
 
-<!-- Is tidy-data always the answer? -->
+See `https://github.com/russHyde/polyply`
+
+```{r}
+# Dependencies:
+# - purrr, methods, rlang, tidygraph, dplyr 
+if(! "polyply" %in% installed.packages()){
+  require("devtools")
+  devtools::install_github(
+    repo = "russHyde/polyply", dependencies = FALSE
+  )
+}
+
+suppressPackageStartupMessages(
+  library(polyply)
+)
+```
+
+# Data-Modelling
 
 ## Tidy Data and the Normal-Forms {.build}
 
@@ -103,15 +118,22 @@ In <footnote content="http://vita.had.co.nz/papers/tidy-data.html">tidy data</fo
 See also, Boyce-Codd
 <footnote content="https://en.wikipedia.org/wiki/First_normal_form">Normal-Forms</footnote> and relational-database-design.
 
+- ?? TD5 - A tidy way of encapsulating your nicely decomposed tables
+- ?? TD6 - An explicit workflow for combining your tables back together
+
 ## Common _Untidy_ Data Structures
 
-Tidy-data / normal-forms help reduce duplication and play nicely with `ggplot2`
+Tidy-data / normal-forms in R
+
+- $\downarrow$ duplication
+
+- play nicely with some important things (`ggplot2` etc)
 
 But untidy data-structures are useful if they:
 
-- increase access efficiency
+- $\uparrow$ access efficiency
 
-- decrease code complexity
+- $\downarrow$ code complexity
 
 - play nicely with other important things
 
@@ -120,11 +142,6 @@ But untidy data-structures are useful if they:
 ```{r, message=FALSE, eval=FALSE}
 Biobase::ExpressionSet()
 ```
-
-<!-- TODO: colour the sides of the nodes according to matching dimensions
-     - eg, colour of assayData and featureData verticals should match,
-           colour of phenoData vertical should match assayData horizontal
-           -->
 
 ```{r, echo = FALSE}
 grViz("
@@ -229,15 +246,16 @@ data-frames
 
 - that plays nicely with untidy data-structures I use _all the time_
 
-# `tidygraph` already does this
+# `tidygraph` already (sort of) does this
 
-## Basics of 'graph theory' speak {.columns-2}
+## Graph theory
 
 ```{r, echo = FALSE}
 data(Koenigsberg, package="igraphdata")
-par(mfrow=c(1, 3))
 plot(Koenigsberg)
 ```
+
+## Basics of 'graph theory' speak
 
 A graph is made up of two sets:
 
@@ -251,6 +269,8 @@ A graph is made up of two sets:
 - Need to store attributes for both nodes and edges
 
 ## `tbl_graph` data structure
+
+`tidygraph` is really a wrapper around the package `igraph`
 
 ```{r}
 data("Koenigsberg", package = "igraphdata")
@@ -283,11 +303,151 @@ tg %>%
 
 ## `polyply` {.build}
 
-`tidygraph` is really a wrapper around the package `igraph`
+Aim:
 
-- `igraph` stores graphs in a slightly different format
+- multiple data-frames in one data-structure
 
-But I liked the idea of holding connected data-frames in one place
+    - $\rightarrow$ class `poly_frame`: extends list`
+    - `poly_frame`: [list[data-frame], merge_fn]
 
-## (WORK-IN-PROGRESS: so please be nice)
+- mutation / filtering
 
+- merging
+
+## Exported functions
+
+- `as_poly_frame`
+
+    - convert a data-structure into a `poly_frame`
+
+- `activate`
+
+    - choose a data-frame from within the `poly_frame`
+
+- `filter`
+
+    - modify the contents of the active data-frame
+
+- `merge`
+
+    - user defined data-frame combiner (default: reduce(inner_join)(df_list))
+
+- others to be added (mutate / select etc)
+
+# Examples
+
+## ExpressionSet Example
+
+```{r}
+data("leukemiasEset", package = "leukemiasEset")
+leuk <- leukemiasEset
+leuk
+```
+
+## Construct a poly-frame from an ExpressionSet
+
+```{r}
+leuk_pf <- list(
+  exprs = reshape2::melt(
+    exprs(leuk),
+    as.is = TRUE,
+    varnames = c("feature_id", "sample_id")
+  ),
+  pheno = tibble::rownames_to_column(
+    phenoData(leuk)@data,
+    var = "sample_id"
+  )
+) %>%
+  as_poly_frame()
+```
+
+## What did we just make?
+
+```{r}
+purrr::map(leuk_pf, head)
+```
+
+## Filter and plot:
+
+```{r}
+my_plot <- leuk_pf %>%
+  # At first, data-frame `exprs` is active
+  filter(feature_id %in% c("ENSG00000000003", "ENSG00000000005")) %>%
+  # Select a different data-frame for filtering:
+  # - you can use non-standard-evaluation in `activate`
+  activate(pheno) %>%
+  # only look at myeloid leukaemias
+  filter(LeukemiaType %in% c("AML", "CML")) %>%
+  # default merge: fold an inner-join
+  merge() %>%
+  ggplot()
+```
+
+## Filter and plot(cont.)
+
+```{r, fig.height = 3}
+my_plot +
+  geom_boxplot(aes(x = LeukemiaType, y = value)) +
+  facet_wrap(~ feature_id) +
+  ggtitle("These might not be the most interesting genes in the dataset ...")
+```
+
+## Taxonomy and brains
+
+```{r}
+data(Animals, package = "MASS")
+animals <- Animals %>%
+  tibble::rownames_to_column(var = "common_name") %>%
+  mutate(
+    common_name = str_replace(
+      common_name, "Dipliodocus", "Diplodocus"
+    )
+  )
+```
+
+```{r}
+common_to_species <- data.frame(
+  common_name = c("Mountain beaver", "Cow", "Grey wolf", "Goat", "Guinea pig",
+    "Diplodocus", "Asian elephant", "Donkey", "Horse", "Potar monkey", "Cat"
+  ),
+  species = c("Aplodontia rufa", "Bos taurus", "Canis lupus",
+    "Capra hircus",
+    "Cavia porcellus", "Diplodocus longus",
+    "Elephas maximus", "Equus africanus asinus",
+    "Equus ferus caballus", NA, "Felis silvestris"
+  )
+)
+```
+
+## Taxonomies (cont.)
+
+```{r, message=FALSE, warning=FALSE}
+taxon_data <- taxize::classification(
+  x = common_to_species$species,
+  get = "order",
+  db = "ncbi"
+)
+  
+taxonomy <- Filter(is.data.frame, taxon_data) %>%
+  bind_rows(.id = "species") %>%
+  select(-id) %>%
+  filter(rank %in% c("order")) %>%
+  tidyr::spread(key = rank, value = name)
+
+head(taxonomy)
+```
+
+## Taxonomies & brains (cont.)
+
+```{r, fig.height = 3}
+as_poly_frame(
+  list(animals, common_to_species, taxonomy)
+) %>%
+  merge() %>%
+  ggplot(aes(x = body, y = brain, col = order)) +
+  geom_point() +
+  xlim(0, NA) + ylim(0, NA)
+```
+
+
+# Thanks
