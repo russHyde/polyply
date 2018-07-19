@@ -1,23 +1,29 @@
 #' Brain / Body sizes of several mammalian and dinosaur species
 #'
-#' @format   Blah blah blah
+#' Body weight is in _kg_. Brain weight is in _g_.
 #'
-#' @source   the MASS package
+#' @format   28 * 3 data.frame; columns are 'common_name', 'body', 'brain'.
+#'
+#' @source   the MASS package dataset `Animals` (but, Dipliodocus -> Diplodocus
+#'   typo was fixed).
+#'
 "animals"
 
 #' Mappings from common-name to genus-species or genus-species-subspecies
-#' for animals in the `animals` dataset
+#'   for animals in the `animals` dataset
 #'
-#' @format   Blah blah blah
+#' @format   28 * 2 tibble; columns are 'common_name', 'species'.
 #'
-#' @source   Random web-searching
+#' @source   Haphazardly searching the web using the common-names from
+#'   `animals`.
+#'
 "common_to_species"
 
 #' Mappings from species-name to taxonomic 'family' and 'order' for a subset of
-#' the animals present in the `animals` dataset
+#'   the animals present in the `animals` dataset
 #'
 #' Note that only mammalian species returned any family / order annotations, so
-#' you'll have to live without dinosaurs for now.
+#'   you'll have to live without dinosaurs for now.
 #'
 #' @format   23 * 3 data.frame; columns 'species', 'family', 'order'
 #'

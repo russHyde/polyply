@@ -4,14 +4,15 @@
 \name{animals}
 \alias{animals}
 \title{Brain / Body sizes of several mammalian and dinosaur species}
-\format{Blah blah blah}
+\format{28 * 3 data.frame; columns are 'common_name', 'body', 'brain'.}
 \source{
-the MASS package
+the MASS package dataset `Animals` (but, Dipliodocus -> Diplodocus
+  typo was fixed).
 }
 \usage{
 animals
 }
 \description{
-Brain / Body sizes of several mammalian and dinosaur species
+Body weight is in _kg_. Brain weight is in _g_.
 }
 \keyword{datasets}

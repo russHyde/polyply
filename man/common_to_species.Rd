@@ -4,16 +4,17 @@
 \name{common_to_species}
 \alias{common_to_species}
 \title{Mappings from common-name to genus-species or genus-species-subspecies
-for animals in the `animals` dataset}
-\format{Blah blah blah}
+  for animals in the `animals` dataset}
+\format{28 * 2 tibble; columns are 'common_name', 'species'.}
 \source{
-Random web-searching
+Haphazardly searching the web using the common-names from
+  `animals`.
 }
 \usage{
 common_to_species
 }
 \description{
 Mappings from common-name to genus-species or genus-species-subspecies
-for animals in the `animals` dataset
+  for animals in the `animals` dataset
 }
 \keyword{datasets}

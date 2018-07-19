@@ -4,7 +4,7 @@
 \name{taxonomy}
 \alias{taxonomy}
 \title{Mappings from species-name to taxonomic 'family' and 'order' for a subset of
-the animals present in the `animals` dataset}
+  the animals present in the `animals` dataset}
 \format{23 * 3 data.frame; columns 'species', 'family', 'order'}
 \source{
 Used taxize::classification over the NCBI database and the species
@@ -16,6 +16,6 @@ taxonomy
 }
 \description{
 Note that only mammalian species returned any family / order annotations, so
-you'll have to live without dinosaurs for now.
+  you'll have to live without dinosaurs for now.
 }
 \keyword{datasets}
