@@ -26,6 +26,15 @@
     - no trailing blanks (at end of line, or end of file)
     - etc etc - default linters in lintr, minus those mentioned in .lintr
 
+Note:
+    - .lintr file is in ./inst/ and is linked to from ./.lintr
+    - this is to ensure that my `lintr` rules are ran when testing on   
+    travis-CI
+    - if .lintr is stored in polyply's main directory, it doesn't get 
+    packaged up and the package fails `test_polyply_package_style.R`
+    since I have some objects with names over 30-characters (a default 
+    which I have overridden to make it a 40-character limit)
+
 Exceptions:
 
 - Objects, functions and methods are snakecase except for
