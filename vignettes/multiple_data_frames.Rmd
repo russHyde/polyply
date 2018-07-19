@@ -369,6 +369,8 @@ purrr::map(leuk_pf, head)
 
 ## Filter and plot:
 
+<!-- TODO: show how ugly this code is within standard tidyverse / base R -->
+
 ```{r}
 my_plot <- leuk_pf %>%
   # At first, data-frame `exprs` is active
