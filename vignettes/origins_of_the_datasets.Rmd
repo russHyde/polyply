@@ -1,0 +1,98 @@
+---
+title: "Building the taxonomy dataset"
+author: "Russ Hyde"
+date: "19 July 2018"
+output: html_document
+---
+
+The datasets provided here were obtained from a few sources.
+
+Body-Brain sizes were obtained from the `MASS` package, cleaned-up and
+tidy-fied as follows:
+
+~~~
+data("Animals", package = "MASS")
+
+animals <- Animals %>%
+  tibble::rownames_to_column(var = "common_name") %>%
+  dplyr::mutate(
+    common_name = str_replace(
+      common_name, "Dipliodocus", "Diplodocus"
+    )
+  )
+~~~
+
+Mappings from the common-name to the Genus-species[-subspecies] tuple were
+obtained haphazardly by web-searching. If they're wrong, feel free to submit an
+issue / pull-request. Similarly, if you can find _any_ mention of the 'Potar
+Monkey' in a source other than the R-documentation, or MASS, or Rousseeuw and
+Leroy you're doing better than me - please add it's "[Genus] [species]".
+
+~~~
+species <- c("Aplodontia rufa",
+            "Bos taurus",
+            "Canis lupus",
+            "Capra hircus",
+            "Cavia porcellus",
+            "Diplodocus longus",
+            "Elephas maximus",
+            "Equus africanus asinus",
+            "Equus ferus caballus",
+            NA,
+            "Felis silvestris",
+            "Giraffa camelopardalis",
+            "Gorilla gorilla",
+            "Homo sapiens",
+            "Loxodonta africana",
+            "Triceratops horridus",
+            "Macaca mulatta",
+            "Macropus giganteus",
+            "Mesocricetus auratus",
+            "Mus musculus",
+            "Oryctolagus cuniculus",
+            "Ovis aries",
+            "Panthera onca",
+            "Pan troglodytes",
+            "Rattus norvegicus",
+            "Brachiosaurus altithorax",
+            "Talpa europaea",
+            "Sus scrofa"
+)
+
+common_to_species <- tibble::data_frame(
+  common_name = animals$common_name,
+  species = species
+)
+~~~
+
+The brains/body-size dataset is bizarre: there should maybe be a few more birds
+to bridge the gap between the dinosaurs and all the mammals.
+
+We obtained the taxonomic tree for most of the species using the package
+`taxize` and the NCBI database.
+
+All the animals for which taxonomies were obtained were mammals, so in terms of 
+
+    "Do Kings Play Chess On Fine Green Silk?"
+
+we stopped at "On" (Order).
+
+~~~
+# Returns a list: entries are data-frames if taxonomic data returns
+taxon_data <- taxize::classification(
+  x = common_to_species$species,
+  get = "order",
+  db = "ncbi"
+)
+
+# We kept only the species that returned taxonomic data and extracted the
+# 'family' and 'order' for each
+taxonomy <- Filter(is.data.frame, taxon_data) %>%
+  dplyr::bind_rows(.id = "species") %>%
+  dplyr::select(-id) %>%
+  dplyr::filter(rank %in% c("family", "order")) %>%
+  tidyr::spread(key = rank, value = name)
+~~~
+
+The datasets `animals`, `common_to_species` and `taxonomy` are available within
+`polyply` using `data()`.

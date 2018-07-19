@@ -9,6 +9,8 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    R (>= 3.4.1)
 Suggests: testthat, lintr,
     knitr,
     rmarkdown
@@ -18,8 +20,9 @@ Imports: purrr,
     rlang,
     tidygraph,
     dplyr
-Collate:
+Collate: 
     'polyply_activate.R'
+    'polyply_data.R'
     'polyply_data_validity.R'
     'polyply_filter.R'
     'polyply_merge_functions.R'
