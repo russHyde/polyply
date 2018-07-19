@@ -61,7 +61,7 @@ to the package.
 
 ## Example data
 
-- [] Animals from MASS (suitably reformatted);
+- [+] Animals from MASS (suitably reformatted);
     - add a second dataframe mapping common-name to species
     - add a third data-frame mapping species to Family
     - and then Family to Order
