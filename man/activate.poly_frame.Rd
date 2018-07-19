@@ -10,9 +10,9 @@
 \item{.data}{A poly_frame.}
 
 \item{what}{An index for that data-frame within the
-poly_frame which is to be activated (ie, become the data-frame that is
-prepped for filtering / selecting). This may be specified by an integer
-index or by variable-name (ie, \code{activate(pf, some_df_name)}).}
+poly_frame which is to be activated (i.e. become the data-frame that is
+prepared for filtering / selecting). This may be specified by an integer
+index or by variable-name (i.e. \code{activate(pf, some_df_name)}).}
 }
 \description{
 Activate a data-frame within a poly_frame
