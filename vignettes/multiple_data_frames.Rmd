@@ -54,12 +54,10 @@ suppressPackageStartupMessages({
   library(ggplot2)
   library(igraph)
   library(igraphdata)
-  library(leukemiasEset)
   library(pryr)
   library(purrr)
   library(reshape2)
   library(stringr)
-  library(taxize)
   library(tibble)
   library(tidyr)
   library(tidygraph)
@@ -338,15 +336,23 @@ Aim:
 
 ## ExpressionSet Example
 
-```{r}
+```{r, echo = FALSE}
+use_leuk_example <- "leukemiasEset" %in% installed.packages()
+```
+
+```{r, eval=use_leuk_example}
 data("leukemiasEset", package = "leukemiasEset")
 leuk <- leukemiasEset
 leuk
 ```
 
+```{r, eval = !use_leuk_example}
+# To see the leukaemia example, install `leukemiasEset` from `bioconductor`
+```
+
 ## Construct a poly-frame from an ExpressionSet
 
-```{r}
+```{r, eval = use_leuk_example}
 leuk_pf <- list(
   exprs = reshape2::melt(
     exprs(leuk),
@@ -363,7 +369,7 @@ leuk_pf <- list(
 
 ## What did we just make?
 
-```{r}
+```{r, eval=use_leuk_example}
 purrr::map(leuk_pf, head)
 ```
 
@@ -371,7 +377,7 @@ purrr::map(leuk_pf, head)
 
 <!-- TODO: show how ugly this code is within standard tidyverse / base R -->
 
-```{r}
+```{r, eval=use_leuk_example}
 my_plot <- leuk_pf %>%
   # At first, data-frame `exprs` is active
   filter(feature_id %in% c("ENSG00000000003", "ENSG00000000005")) %>%
@@ -387,7 +393,7 @@ my_plot <- leuk_pf %>%
 
 ## Filter and plot(cont.)
 
-```{r, fig.height = 3}
+```{r, fig.height = 3, eval=use_leuk_example}
 my_plot +
   geom_boxplot(aes(x = LeukemiaType, y = value)) +
   facet_wrap(~ feature_id) +
@@ -397,45 +403,21 @@ my_plot +
 ## Taxonomy and brains
 
 ```{r}
-data(Animals, package = "MASS")
-animals <- Animals %>%
-  tibble::rownames_to_column(var = "common_name") %>%
-  mutate(
-    common_name = str_replace(
-      common_name, "Dipliodocus", "Diplodocus"
-    )
-  )
+data(animals, package = "polyply")
+head(animals)
 ```
 
+## Taxonomies (cont.)
+
 ```{r}
-common_to_species <- data.frame(
-  common_name = c("Mountain beaver", "Cow", "Grey wolf", "Goat", "Guinea pig",
-    "Diplodocus", "Asian elephant", "Donkey", "Horse", "Potar monkey", "Cat"
-  ),
-  species = c("Aplodontia rufa", "Bos taurus", "Canis lupus",
-    "Capra hircus",
-    "Cavia porcellus", "Diplodocus longus",
-    "Elephas maximus", "Equus africanus asinus",
-    "Equus ferus caballus", NA, "Felis silvestris"
-  )
-)
+data(common_to_species, package = "polyply")
+head(common_to_species)
 ```
 
 ## Taxonomies (cont.)
 
 ```{r, message=FALSE, warning=FALSE}
-taxon_data <- taxize::classification(
-  x = common_to_species$species,
-  get = "order",
-  db = "ncbi"
-)
-  
-taxonomy <- Filter(is.data.frame, taxon_data) %>%
-  bind_rows(.id = "species") %>%
-  select(-id) %>%
-  filter(rank %in% c("order")) %>%
-  tidyr::spread(key = rank, value = name)
-
+data(taxonomy, package = "polyply")
 head(taxonomy)
 ```
 
