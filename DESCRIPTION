@@ -9,18 +9,19 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: 
+Depends:
     R (>= 3.4)
 Suggests: testthat, lintr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 RoxygenNote: 6.0.1
 Imports: purrr,
     methods,
     rlang,
     tidygraph,
     dplyr
-Collate: 
+Collate:
     'polyply_activate.R'
     'polyply_data.R'
     'polyply_data_validity.R'

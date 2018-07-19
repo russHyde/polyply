@@ -2,8 +2,16 @@
 
 [![Build Status](
   https://travis-ci.org/russHyde/polyply.svg?branch=master
-  )](
+  )
+](
   https://travis-ci.org/russHyde/polyply
+)
+
+[![Coverage Status](
+  https://img.shields.io/codecov/c/github/russHyde/polyply/master.svg
+  )
+](
+  https://codecov.io/github/russHyde/polyply?branch=master
 )
 
 Contributors are more than welcome - but you've got to be nice - see the

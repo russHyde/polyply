@@ -7,3 +7,4 @@ STYLE.md
 ^\.travis\.yml$
 ^presentations$
 ^CONDUCT\.md$
+^codecov\.yml$
