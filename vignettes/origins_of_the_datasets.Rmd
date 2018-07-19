@@ -3,6 +3,10 @@ title: "Building the taxonomy dataset"
 author: "Russ Hyde"
 date: "19 July 2018"
 output: html_document
+vignette: >
+ %\VignetteIndexEntry{Building the taxonomy dataset}
+ %\VignetteEngine{knitr::rmarkdown}
+ \usepackage[utf8]{inputenc}
 ---
 
 The datasets provided here were obtained from a few sources.
