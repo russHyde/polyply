@@ -24,11 +24,12 @@ as_poly_frame <- function(x, ...) {
 #' @param        x             A non-empty list of data-frames
 #' @param        merge_fn      A function that defines how the data-frames are
 #'   to be merged together.
+#' @param        ...           Further arguments (unused at present).
 #'
 #' @include      polyply_data_validity.R
 #' @export
 #'
-as_poly_frame.list <- function(x, merge_fn) {
+as_poly_frame.list <- function(x, merge_fn, ...) {
   # check_validity:
   # - if any names are present, all entries in x should be named
 

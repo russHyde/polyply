@@ -4,13 +4,15 @@
 \alias{as_poly_frame.list}
 \title{Create a poly_frame object from a list of data-frames}
 \usage{
-\method{as_poly_frame}{list}(x, merge_fn)
+\method{as_poly_frame}{list}(x, merge_fn, ...)
 }
 \arguments{
 \item{x}{A non-empty list of data-frames}
 
 \item{merge_fn}{A function that defines how the data-frames are
 to be merged together.}
+
+\item{...}{Further arguments (unused at present).}
 }
 \description{
 Create a poly_frame object from a list of data-frames
