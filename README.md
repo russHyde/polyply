@@ -6,6 +6,11 @@
   https://travis-ci.org/russHyde/polyply
 )
 
+Contributors are more than welcome - but you've got to be nice - see the
+code-of-conduct (CONDUCT.md)
+
+----
+
 I've talked about these ideas on twitter and biostars recently, but haven't put
 the code together yet.
 

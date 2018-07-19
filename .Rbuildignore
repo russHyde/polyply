@@ -6,3 +6,4 @@ STYLE.md
 .lintr
 ^\.travis\.yml$
 ^presentations$
+^CONDUCT\.md$
