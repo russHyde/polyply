@@ -89,8 +89,8 @@ See `https://github.com/russHyde/polyply`
 
 ```{r}
 # Dependencies:
-# - purrr, methods, rlang, tidygraph, dplyr 
-if(! "polyply" %in% installed.packages()){
+# - purrr, methods, rlang, tidygraph, dplyr
+if (!"polyply" %in% installed.packages()) {
   require("devtools")
   devtools::install_github(
     repo = "russHyde/polyply", dependencies = FALSE
@@ -161,7 +161,7 @@ digraph eset_boxes {
     A [label = 'assayData\n(matrix)\n\nnrow=|genes|\nncol=|samples|', height = 3, width = 2]
     B [label = 'featureData\n(data-frame)\n\nnrow=|genes|', height = 3, width = 2.5]
     C [label = 'phenoData\n(data-frame)\n\nnrow=|samples|', height = 2, width = 2.5]
-  
+
     # edges
     A->B A->C
   }
@@ -206,10 +206,10 @@ Easy <footnote content="... or as.data.frame / rownames_to_column / gather">fix<
 
 ```{r}
 m2 <- reshape2::melt(
-    m,
-    varnames = c("feature_id", "sample_id"),
-    as.is = TRUE
-  )
+  m,
+  varnames = c("feature_id", "sample_id"),
+  as.is = TRUE
+)
 
 head(m2, 4)
 ```
@@ -249,7 +249,7 @@ data-frames
 ## Graph theory
 
 ```{r, echo = FALSE}
-data(Koenigsberg, package="igraphdata")
+data(Koenigsberg, package = "igraphdata")
 plot(Koenigsberg)
 ```
 

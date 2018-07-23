@@ -75,7 +75,7 @@ to bridge the gap between the dinosaurs and all the mammals.
 We obtained the taxonomic tree for most of the species using the package
 `taxize` and the NCBI database.
 
-All the animals for which taxonomies were obtained were mammals, so in terms of 
+All the animals for which taxonomies were obtained were mammals, so in terms of
 
     "Do Kings Play Chess On Fine Green Silk?"
 
