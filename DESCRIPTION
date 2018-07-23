@@ -27,5 +27,6 @@ Collate:
     'polyply_data_validity.R'
     'polyply_filter.R'
     'polyply_merge_functions.R'
+    'polyply_mutate.R'
     'polyply_poly_frame.R'
 VignetteBuilder: knitr
