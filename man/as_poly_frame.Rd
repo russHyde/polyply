@@ -7,7 +7,7 @@
 as_poly_frame(x, ...)
 }
 \arguments{
-\item{x}{An R object for conversion into a poly_frame}
+\item{x}{An R object for conversion into a poly_frame.}
 
 \item{...}{Further arguments that define how to construct /
 manipulate the poly_frame.}

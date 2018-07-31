@@ -7,7 +7,7 @@
 \method{as_poly_frame}{list}(x, merge_fn, ...)
 }
 \arguments{
-\item{x}{A non-empty list of data-frames}
+\item{x}{A non-empty list of data-frames.}
 
 \item{merge_fn}{A function that defines how the data-frames are
 to be merged together.}

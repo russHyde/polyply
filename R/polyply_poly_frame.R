@@ -6,7 +6,7 @@
 
 #' Create a poly_frame object
 #'
-#' @param        x             An R object for conversion into a poly_frame
+#' @param        x             An R object for conversion into a poly_frame.
 #' @param        ...           Further arguments that define how to construct /
 #'   manipulate the poly_frame.
 #'
@@ -21,7 +21,7 @@ as_poly_frame <- function(x, ...) {
 
 #' Create a poly_frame object from a list of data-frames
 #'
-#' @param        x             A non-empty list of data-frames
+#' @param        x             A non-empty list of data-frames.
 #' @param        merge_fn      A function that defines how the data-frames are
 #'   to be merged together.
 #' @param        ...           Further arguments (unused at present).
@@ -48,6 +48,19 @@ as_poly_frame.list <- function(x, merge_fn, ...) {
     merge_fn = merge_fn,
     active = 1
   )
+}
+
+###############################################################################
+
+#' Create a poly_frame object
+#'
+#' @param        ...           A set of data-frames.
+#' @inheritParams   as_poly_frame.list
+#'
+#' @export
+#'
+poly_frame <- function(..., merge_fn) {
+  as_poly_frame(list(...), merge_fn = merge_fn)
 }
 
 ###############################################################################

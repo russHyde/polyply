@@ -160,3 +160,70 @@ test_that("poly_frame methods: merge-function accessor / runner / setter", {
 })
 
 ###############################################################################
+
+test_that("poly_frame(..., merge_fn): make a polyframe from named arguments", {
+  mf <- merge
+  a <- data.frame()
+  b <- data.frame(x = 1:5)
+
+  expect_equal(
+    object = poly_frame(a = a),
+    expected = as_poly_frame(list(a = a)),
+    info = paste(
+      "poly_frame(...) == as_poly_frame(list(...)) for a single data-frame,",
+      "with names"
+    )
+  )
+
+  expect_equal(
+    object = poly_frame(a),
+    expected = as_poly_frame(list(a)),
+    info = paste(
+      "poly_frame(...) == as_poly_frame(list(...)) for a single data-frame,",
+      "without names"
+    )
+  )
+
+  expect_equal(
+    object = poly_frame(
+      a = a,
+      b = b
+    ),
+    expected = as_poly_frame(
+      list(
+        a = a,
+        b = b
+      )
+    ),
+    info = paste(
+      "poly_frame(...) == as_poly_frame(list(...)) for a two data-frames"
+    )
+  )
+
+  expect_equal(
+    object = poly_frame(
+      a = a,
+      b = b,
+      merge_fn = mf
+    ),
+    expected = as_poly_frame(
+      list(
+        a = a,
+        b = b
+      ),
+      merge_fn = mf
+    ),
+    info = paste(
+      "poly_frame(..., merge_fn = ...) == as_poly_frame(list(...),",
+      "merge_fn = ...) with a non-default merge-function"
+    )
+  )
+
+  expect_error(
+    object = poly_frame(merge_fn = mf),
+    info = paste(
+      "At least one data-frame required for poly_frame() args; even when",
+      "merge_fn provided"
+    )
+  )
+})

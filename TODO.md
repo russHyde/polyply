@@ -42,13 +42,13 @@ to the package.
 - [+] `activate.poly_frame` method for as-variable indexing
 - [+] `filter`/`filter_` methods
 - [+] `set_merge_fn` method
-- [] `mutate.poly_frame` method
+- [+] `mutate.poly_frame` method
 
 ## Functions
 
 - [+] `as_poly_frame` with bare df-list
 - [+] `as_poly_frame` with merging function
-- [] `poly_frame` function with '...'-expanded data-frame set and a
+- [+] `poly_frame` function with '...'-expanded data-frame set and a
   merging-function
 - [] `as_poly_frame.ExpressionSet` and `as_poly_frame.DGEList`
 
