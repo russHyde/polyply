@@ -142,6 +142,7 @@ Biobase::ExpressionSet()
 ```
 
 ```{r, echo = FALSE}
+# nolint start
 grViz("
 digraph eset_boxes {
 
@@ -173,6 +174,7 @@ digraph eset_boxes {
   ExpressionSet -> Annotation
 }
 ")
+# nolint end
 ```
 
 Figure made with `DiagrammeR`
