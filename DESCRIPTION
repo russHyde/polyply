@@ -14,7 +14,8 @@ Depends:
 Suggests: testthat, lintr,
     knitr,
     rmarkdown,
-    covr
+    covr,
+    ggplot2
 RoxygenNote: 6.0.1
 Imports: purrr,
     methods,

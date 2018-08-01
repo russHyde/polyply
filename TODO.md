@@ -56,6 +56,9 @@ to the package.
 
 - [+] Style-guide
 - [] Vignette
+    - [+] Plot brain ~ body split by Order for 'Animals' dataset
+    - Explain why I think polyply provides a neater way of storing datasets
+    that will subsequently be combined
 - [] Memory usage while working with polyply:
     - How big can a vector be in R and does this impose constraints on the size
       of tables we can join in-memory
@@ -67,7 +70,6 @@ to the package.
     - add a second dataframe mapping common-name to species
     - add a third data-frame mapping species to Family
     - and then Family to Order
-    - Plot brain ~ body split by Family
 
 ## Git structure
 

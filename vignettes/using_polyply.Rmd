@@ -1,0 +1,269 @@
+---
+title: "Using `polyply`"
+author:
+- name: "Russ Hyde"
+  affiliation: "University of Glasgow"
+date: "`r Sys.Date()`"
+output:
+    rmarkdown::html_vignette:
+        df_print: kable
+vignette: >
+  %\VignetteIndexEntry{using_polyply}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Import the Package
+
+`polyply` was written to work with the `tidyverse` / `dplyr` approach to
+manipulating data-frames in `R`. Load in the packages for the current vignette:
+
+```{r}
+suppressPackageStartupMessages({
+  library(polyply)
+
+  library(dplyr)
+  library(purrr)
+
+  requireNamespace("ggplot2", quietly = TRUE)
+})
+```
+
+# PURPOSE!
+
+<!-- TODO -->
+
+# ANIMALS!
+
+`polyply` contains a few datasets. The datasets `animals`, `common_to_species`
+and `taxonomy` are logically linked. They were either obtained from (`animals`
+was from `MASS`) or using R packages. See the vignette
+`origins_of_the_datasets` for more details.
+
+`animals` contains the brain and body weight of a few animals. It has been
+tidied-up relative to the `MASS` version by pulling the common-name of the
+animals into the columns of the data-frame (they were previously stored in the
+rownames).
+
+```{r}
+data(animals, package = "polyply")
+head(animals)
+dim(animals)
+```
+
+`common_to_species` contains the common-name of the animals and the
+species-name (that is, the genus / species pair or taxonomic name) for each
+animal. A formal species-name couldn't be found for one of the animals (nor
+could any other reference to that animal).
+
+```{r}
+data(common_to_species, package = "polyply")
+head(common_to_species)
+dim(common_to_species)
+filter(common_to_species, is.na(species))
+```
+
+Finally, `taxonomy` contains various taxonomic information (the 'family' and
+'order') about each species. See [ Wikipedia ](
+https://en.wikipedia.org/wiki/Taxonomy_(biology)
+) for more details about taxonomy. Again, there is some missing data in this
+data-frame.
+
+```{r}
+data(taxonomy, package = "polyply")
+head(taxonomy)
+filter(taxonomy, is.na(family) | is.na(order))
+```
+
+## Brain-size and Body-mass
+
+Large brains and large bodies go together. To show this, we are going to make a
+few charts using the `animals` dataset, and use the associated taxonomic
+information to annotate the charts.
+
+First we make a little helper function to reduce duplication in the plotting
+calls.
+
+```{r}
+gg_helper <- function(df) {
+  ggplot2::ggplot(
+    df,
+    ggplot2::aes(x = body, y = brain)
+  ) +
+    ggplot2::geom_point() +
+    ggplot2::scale_x_log10(
+      name = "Body Weight / kg",
+      breaks = c(0.01, 1, 100, 10000),
+      labels = c("0.01", "1", "100", "10,000"),
+      limits = c(0.01, NA)
+    ) +
+    ggplot2::scale_y_log10(
+      name = "Brain Weight / g",
+      breaks = c(0.1, 10, 1000),
+      labels = c("0.1", "10", "1,000"),
+      limits = c(0.1, NA)
+    )
+}
+```
+
+```{r, fig.width = 6}
+animals %>%
+  gg_helper() +
+  ggplot2::ggtitle(
+    label = "`ggplot2` is great isn't it?",
+    subtitle = "Try `ggrepel` if you want to get all the text-labels visible"
+  ) +
+  ggplot2::geom_text(
+    ggplot2::aes(label = common_name),
+    position = ggplot2::position_jitter(0.2, 0.1),
+    col = colors()[123],
+    size = 3,
+    check_overlap = TRUE
+  )
+```
+
+That's a perfectly nice plot. But it's a bit odd
+
+- we've got dinosaurs and mammals on the same chart (unsurprisingly, dinosaurs
+  are something of an outgroup - what with them not being mammals - maybe a
+  broader set of vertebrate classes should have been presented)
+
+- the mammals are of varying different types (rodents, carnivores, primates)
+
+- there's five orders of magnitude between the different body weights
+
+- some of the body weights are measurable, and some of them have
+been inferred....
+
+Let's make a different chart, where we separate the species up based on their
+taxonomic order (rodent, carnivore ...).
+
+### The `dplyr` route:
+
+To make the required chart, we have to associate each row of `animals` with the
+corresponding `order` in the `taxonomy` data-frame. So we have to join the
+three data-frames together. The workflow for doing this:
+
+1. Combine data-frames together
+
+1. Call `ggplot`, set any plot-aesthetics and add any required geometry
+
+1. Format the chart
+
+```{r, fig.width = 6}
+# Combine the data-frames together
+animals %>%
+  left_join(common_to_species) %>%
+  left_join(taxonomy) %>%
+  # Make the chart
+  gg_helper() +
+  # Add some extra formatting tweaks
+  ggplot2::geom_point(ggplot2::aes(col = order))
+```
+
+There's a few different ways to do that first data-frame combining step. Here
+we used `dplyr`'s `left_join` function. Since we only used `left_join`, we
+could have used the following, more 'functional programming' approach to do the
+same thing:
+
+~~~
+// This ...
+purrr::reduce(
+  list(animals, common_to_species, taxonomy),
+  left_join
+)
+
+// is equivalent to ...
+left_join(
+  left_join(
+    animals, common_to_species
+  ),
+  taxonomy
+)
+~~~
+
+### (One of) The `polyply` way(s)
+
+```{r, fig.width = 6}
+poly_frame(
+  animals, common_to_species, taxonomy,
+  merge_fn = function(x) reduce(x, left_join)
+) %>%
+  merge() %>%
+  gg_helper() +
+  ggplot2::geom_point(ggplot2::aes(col = order))
+```
+
+----
+
+END OF VIGNETTE
+
+----
+
+Vignettes are long form documentation commonly included in packages. Because
+they are part of the distribution of the package, they need to be as compact as
+possible. The `html_vignette` output type provides a custom style sheet (and
+tweaks some options) to ensure that the resulting html is as small as possible.
+The `html_vignette` format:
+
+- Never uses retina figures
+
+- Has a smaller default figure size
+
+- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+
+## Vignette Info
+
+Note the various macros within the `vignette` section of the metadata block
+above. These are required in order to instruct R how to build the vignette.
+Note that you should change the `title` field and the `\VignetteIndexEntry` to
+match the title of your vignette.
+
+## Styles
+
+The `html_vignette` template includes a basic CSS theme. To override this theme
+you can specify your own CSS in the document metadata as follows:
+
+    output:
+      rmarkdown::html_vignette:
+        css: mystyles.css
+
+## Figures
+
+The figure sizes have been customised so that you can easily put two images
+side-by-side.
+
+```{r, fig.show='hold'}
+plot(1:10)
+plot(10:1)
+```
+
+You can enable figure captions by `fig_caption: yes` in YAML:
+
+    output:
+      rmarkdown::html_vignette:
+        fig_caption: yes
+
+Then you can use the chunk option `fig.cap = "Your figure caption."` in
+**knitr**.
+
+## More Examples
+
+You can write math expressions, e.g. $Y = X\beta + \epsilon$,
+footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(mtcars, 10))
+```
+
+Also a quote using `>`:
+
+> "He who gives up [code] safety for [code] speed deserves neither."
+([via](https://twitter.com/hadleywickham/status/504368538874703872))
