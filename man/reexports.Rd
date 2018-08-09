@@ -20,4 +20,3 @@ below to see their documentation.
 
   \item{tidygraph}{\code{\link[tidygraph]{activate}}}
 }}
-
