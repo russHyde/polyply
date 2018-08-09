@@ -88,14 +88,14 @@ And if your data-frames are sufficently small.
 But 'doing things just once' always seems like the exception rather than the
 rule, and working with manageably-sized data-frames is another rarity.
 
-So, to  mitigate against duplication, which bits of the above code should be 
+So, to  mitigate against duplication, which bits of the above code should be
 abstracted away?
 
 Since the 'datasets used' will change less rapidly than the 'questions asked',
 I'm more likely to need to change the filters / selections / mutations that are
-applied to the individual data-frames than I am to change the pipeline for 
-joining-together the different datasets. Hell, there's a logical connection 
-between the different data-frames that is unaffected by filtering any given 
+applied to the individual data-frames than I am to change the pipeline for
+joining-together the different datasets. Hell, there's a logical connection
+between the different data-frames that is unaffected by filtering any given
 data-frame - so surely joining on that logical connection should be abstracted
 out first.
 
@@ -111,7 +111,7 @@ list(genes = A, samples = B, expressions = C) %>%
   ggplot(...)
 ~~~~
 
-Here, the merging function works similarly to how a View works in SQL - it's a 
+Here, the merging function works similarly to how a View works in SQL - it's a
 virtual specification for how data-tables should be combined together. But
 unlike in SQL, there's no optimisation performed in R and so that query would
 create the same huge temporary inner-join data-frame described above. Given
@@ -141,14 +141,14 @@ list(
   ggplot(...)
 ~~~~
 
-... and have it behave algebraically identically to the two previous calls. 
-This would limit memory burden, limit the need to store intermediate results 
+... and have it behave algebraically identically to the two previous calls.
+This would limit memory burden, limit the need to store intermediate results
 but also allow you store intermediate results etc.
 
-But but but, doesn't tidygraph do something similar already? in tidygraph, 
-there are a couple of data-frames (one for edges and one for nodes) stored 
-inside a tbl_graph object, and you can mutate / filter / etc each of these 
-data-frames independently. To indicate which of the tables you want to work 
+But but but, doesn't tidygraph do something similar already? in tidygraph,
+there are a couple of data-frames (one for edges and one for nodes) stored
+inside a tbl_graph object, and you can mutate / filter / etc each of these
+data-frames independently. To indicate which of the tables you want to work
 with, you use 'activate'. So we could generalise the code from tidygraph in a
 way that allows the following workflow:
 
