@@ -27,6 +27,7 @@ to the package.
       ensure that source-code is available for this test to run
     - No source code is present upon which to lint when using
       `devtools::check()`
+- [] `select` columns from a given data-frame
 
 ## Classes
 
@@ -43,6 +44,7 @@ to the package.
 - [+] `filter`/`filter_` methods
 - [+] `set_merge_fn` method
 - [+] `mutate.poly_frame` method
+- [] `select` method
 
 ## Functions
 
