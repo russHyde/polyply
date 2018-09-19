@@ -22,7 +22,7 @@ Imports: purrr,
     rlang,
     tidygraph,
     dplyr
-Collate:
+Collate: 
     'polyply_activate.R'
     'polyply_data.R'
     'polyply_data_validity.R'
@@ -30,4 +30,5 @@ Collate:
     'polyply_merge_functions.R'
     'polyply_mutate.R'
     'polyply_poly_frame.R'
+    'polyply_select.R'
 VignetteBuilder: knitr
