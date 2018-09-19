@@ -6,8 +6,8 @@
 \title{Brain / Body sizes of several mammalian and dinosaur species}
 \format{28 * 3 data.frame; columns are 'common_name', 'body', 'brain'.}
 \source{
-the MASS package dataset `Animals` (but, Dipliodocus -> Diplodocus
-  typo was fixed).
+the MASS package dataset `Animals` (but, Dipliodocus ->
+  Diplodocus typo was fixed).
 }
 \usage{
 animals

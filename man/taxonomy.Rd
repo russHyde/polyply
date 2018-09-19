@@ -7,9 +7,9 @@
   the animals present in the `animals` dataset}
 \format{23 * 3 data.frame; columns 'species', 'family', 'order'}
 \source{
-Used taxize::classification over the NCBI database and the species
-   names present in `common_to_species`. Code is given in
-   `origins_of_the_datasets.Rmd`.
+Used taxize::classification over the NCBI database and the
+  species names present in `common_to_species`. Code is given in
+  `origins_of_the_datasets.Rmd`.
 }
 \usage{
 taxonomy
