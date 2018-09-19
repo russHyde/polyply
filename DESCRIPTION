@@ -26,6 +26,7 @@ Collate:
     'polyply_activate.R'
     'polyply_data.R'
     'polyply_data_validity.R'
+    'polyply_dplyr_call.R'
     'polyply_filter.R'
     'polyply_merge_functions.R'
     'polyply_mutate.R'

@@ -17,10 +17,6 @@ dplyr::filter
 #'
 #' @export
 
-filter.poly_frame <- function(.data, ...) {
-  .df <- dplyr::filter(extract_active_df(.data), ...)
-  new_poly_frame <- update_active_df(.data, .df)
-  new_poly_frame
-}
+filter.poly_frame <- build_method_from_dplyr_verb(dplyr::filter)
 
 ###############################################################################

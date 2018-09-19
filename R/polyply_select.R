@@ -19,9 +19,6 @@ dplyr::select
 #'
 #' @export
 
-select.poly_frame <- function(.data, ...) {
-  .df <- dplyr::select(extract_active_df(.data), ...)
-  update_active_df(.data, .df)
-}
+select.poly_frame <- build_method_from_dplyr_verb(dplyr::select)
 
 ###############################################################################

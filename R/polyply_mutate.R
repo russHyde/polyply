@@ -17,9 +17,6 @@ dplyr::mutate
 #'
 #' @export
 
-mutate.poly_frame <- function(.data, ...) {
-  .df <- dplyr::mutate(extract_active_df(.data), ...)
-  update_active_df(.data, .df)
-}
+mutate.poly_frame <- build_method_from_dplyr_verb(dplyr::mutate)
 
 ###############################################################################
