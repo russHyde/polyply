@@ -19,6 +19,7 @@
     higher-order function?
     -->
 7. lint summary:
+
     - snake_case (including for class-names)
     - max-line-length: 80
     - max-object-length: 40
@@ -27,10 +28,13 @@
     - etc etc - default linters in lintr, minus those mentioned in .lintr
 
 Note:
-    - .lintr file is in ./inst/ and is linked to from ./.lintr
-    - this is to ensure that my `lintr` rules are ran when testing on
+
+- .lintr file is in ./inst/ and is linked to from ./.lintr
+
+- this is to ensure that my `lintr` rules are ran when testing on
     travis-CI
-    - if .lintr is stored in polyply's main directory, it doesn't get
+
+- if .lintr is stored in polyply's main directory, it doesn't get
     packaged up and the package fails `test_polyply_package_style.R`
     since I have some objects with names over 30-characters (a default
     which I have overridden to make it a 40-character limit)
