@@ -7,9 +7,15 @@
 \alias{reexports}
 \alias{filter}
 \alias{reexports}
+\alias{group_by}
+\alias{reexports}
 \alias{mutate}
 \alias{reexports}
+\alias{rename}
+\alias{reexports}
 \alias{select}
+\alias{reexports}
+\alias{ungroup}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -17,7 +23,7 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dplyr}{\code{\link[dplyr]{filter}}, \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{select}}}
+  \item{dplyr}{\code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{rename}}, \code{\link[dplyr]{select}}, \code{\link[dplyr]{ungroup}}}
 
   \item{tidygraph}{\code{\link[tidygraph]{activate}}}
 }}
