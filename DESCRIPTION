@@ -32,4 +32,5 @@ Collate:
     'polyply_dplyr_verbs.R'
     'polyply_merge_functions.R'
     'polyply_poly_frame.R'
+    'polyply_purrr_verbs.R'
 VignetteBuilder: knitr
