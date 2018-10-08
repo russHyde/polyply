@@ -23,7 +23,8 @@ Imports: purrr,
     methods,
     rlang,
     tidygraph,
-    dplyr
+    dplyr,
+    magrittr
 Collate:
     'polyply_activate.R'
     'polyply_data.R'
