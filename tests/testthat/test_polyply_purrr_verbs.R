@@ -4,7 +4,7 @@ context("tests availability of purrr verbs for poly_frames")
 
 ###############################################################################
 
-test_that("map should work for poly_frame and return poly_frames", {
+test_that("map_pf should provide a map function that returns a poly_frame", {
   df1 <- data.frame(a = 1:3, b = letters[1:3])
   df2 <- data.frame(b = letters[3:6])
   l1 <- list(df1 = df1, df2 = df2)
@@ -13,7 +13,7 @@ test_that("map should work for poly_frame and return poly_frames", {
   expect_is(
     object = map_pf(pf1, head, 2),
     "poly_frame",
-    info = "polyply::map(poly_frame, f, ...) should return a poly_frame"
+    info = "polyply::map_pf(poly_frame, f, ...) should return a poly_frame"
   )
 
   expect_equal(
