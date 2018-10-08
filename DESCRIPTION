@@ -30,9 +30,6 @@ Collate:
     'polyply_data_validity.R'
     'polyply_dplyr_call.R'
     'polyply_dplyr_verbs.R'
-    'polyply_filter.R'
     'polyply_merge_functions.R'
-    'polyply_mutate.R'
     'polyply_poly_frame.R'
-    'polyply_select.R'
 VignetteBuilder: knitr

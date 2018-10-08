@@ -4,6 +4,8 @@
 
 ###############################################################################
 
+#' @include      polyply_dplyr_call.R
+#'
 #' @importFrom   dplyr         filter
 #' @export
 #'
