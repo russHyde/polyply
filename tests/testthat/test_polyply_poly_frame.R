@@ -27,13 +27,15 @@ test_that("poly_frame construction: valid input", {
   df1 <- data.frame(a = 1:3)
 
   expect_is(
-    as_poly_frame(list(df1)), "poly_frame", info = "expect a poly_frame"
+    as_poly_frame(list(df1)), "poly_frame",
+    info = "expect a poly_frame"
   )
 
   pf1 <- as_poly_frame(list(df1))
 
   expect_is(
-    pf1, "list", info = "poly_frame is a list"
+    pf1, "list",
+    info = "poly_frame is a list"
   )
 
   expect_equal(
