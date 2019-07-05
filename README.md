@@ -19,8 +19,7 @@ code-of-conduct (CONDUCT.md)
 
 ----
 
-I've talked about these ideas on twitter and biostars recently, but haven't put
-the code together yet.
+I've talked about these ideas on twitter and biostars recently.
 
 `dplyr` really shines in the manipulation of single data-frames and has
 functions for merging existing data-frames together, similar to how tables are
