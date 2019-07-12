@@ -14,6 +14,7 @@ LazyData: true
 Depends:
     R (>= 3.4)
 Suggests: testthat, lintr,
+    tibble,
     knitr,
     rmarkdown,
     covr,
